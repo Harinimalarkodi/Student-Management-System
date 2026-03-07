@@ -3,43 +3,52 @@
 <head>
     <title>View Feedback</title>
 </head>
+
 <body>
 
-    <!-- Navigation Bar -->
-    <div>
-        <a href="/">Home</a> |
-        <a href="/admin">Admin</a>
-    </div>
+<!-- Navigation Bar -->
+<div>
+    <a href="/">Home</a> |
+    <a href="/admin">Admin</a>
+</div>
 
-    <hr>
-<body>
-    <h2>Submitted Feedback</h2>
+<hr>
 
-    {% if data %}
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Roll</th>
-            <th>Rating</th>
-            <th>Comments</th>
-        </tr>
+<h2>Submitted Feedback</h2>
 
-        {% for row in data %}
-        <tr>
-            <td>{{ row[0] }}</td>
-            <td>{{ row[1] }}</td>
-            <td>{{ row[2] }}</td>
-            <td>{{ row[3] }}</td>
-            <td>{{ row[4] }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    {% else %}
-        <p>No feedback submitted yet.</p>
-    {% endif %}
+{% if data %}
+<table border="1">
 
-    <br>
-    <a href="/">Go Back</a>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Roll</th>
+<th>Rating</th>
+<th>Comments</th>
+</tr>
+
+{% for row in data %}
+
+<tr>
+<td>{{ row[0] }}</td>
+<td>{{ row[1] }}</td>
+<td>{{ row[2] }}</td>
+<td>{{ row[3] }}</td>
+<td>{{ row[4] }}</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% else %}
+
+<p>No feedback submitted yet.</p>
+
+{% endif %}
+
+<br>
+<a href="/admin">Back to Admin Dashboard</a>
+
 </body>
 </html>
