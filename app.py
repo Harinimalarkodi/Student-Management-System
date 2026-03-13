@@ -62,6 +62,14 @@ def register():
         conn = sqlite3.connect('feedback.db')
         cursor = conn.cursor()
 
+        # CHECK IF EMAIL EXISTS
+        cursor.execute("SELECT * FROM students WHERE email=?", (email,))
+        existing_user = cursor.fetchone()
+
+        if existing_user:
+            conn.close()
+            return "Email already registered. Please login."
+
         cursor.execute(
         "INSERT INTO students(name,email,department,password) VALUES(?,?,?,?)",
         (name,email,department,password)
@@ -73,8 +81,6 @@ def register():
         return redirect('/student_login')
 
     return render_template('register.html')
-
-
 # -------------------------
 # STUDENT LOGIN
 # -------------------------
@@ -117,12 +123,30 @@ def student_dashboard():
         return redirect('/student_login')
 
     return render_template('student_dashboard.html')
+    # -------------------------
+# VIEW REGISTERED STUDENTS
+# -------------------------
+@app.route('/students')
+def students():
+
+    if 'admin' not in session:
+        return redirect('/admin_login')
+
+    conn = sqlite3.connect('feedback.db')
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM students")
+    data = cursor.fetchall()
+
+    conn.close()
+
+    return render_template('students.html', data=data)
 
 
 # -------------------------
 # SUBMIT FEEDBACK
 # -------------------------
-@app.route('/submit', methods=['POST'])
+@app.route('/submit', methods=['GET','POST'])
 def submit():
 
     if 'student' not in session:
@@ -136,6 +160,14 @@ def submit():
     conn = sqlite3.connect('feedback.db')
     cursor = conn.cursor()
 
+    # CHECK IF FEEDBACK ALREADY SUBMITTED
+    cursor.execute("SELECT * FROM feedback WHERE roll=?", (roll,))
+    existing_feedback = cursor.fetchone()
+
+    if existing_feedback:
+        conn.close()
+        return "You have already submitted feedback."
+
     cursor.execute(
     "INSERT INTO feedback(name,roll,rating,comments) VALUES(?,?,?,?)",
     (name,roll,rating,comments)
@@ -145,7 +177,6 @@ def submit():
     conn.close()
 
     return render_template('thankyou.html')
-
 
 # -------------------------
 # ADMIN LOGIN
