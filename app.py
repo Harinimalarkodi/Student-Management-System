@@ -214,12 +214,29 @@ def admin():
     conn = sqlite3.connect('feedback.db')
     cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM feedback")
-    data = cursor.fetchall()
+    # Total students
+    cursor.execute("SELECT COUNT(*) FROM students")
+    total_students = cursor.fetchone()[0]
+
+    # Total feedback
+    cursor.execute("SELECT COUNT(*) FROM feedback")
+    total_feedback = cursor.fetchone()[0]
+
+    # Average rating
+    cursor.execute("SELECT AVG(rating) FROM feedback")
+    avg_rating = cursor.fetchone()[0]
+
+    if avg_rating is None:
+        avg_rating = 0
 
     conn.close()
 
-    return render_template('admin.html', data=data)
+    return render_template(
+        'admin.html',
+        students=total_students,
+        feedback=total_feedback,
+        rating=round(avg_rating,2)
+    )
 # -------------------------
 # VIEW FEEDBACK
 # -------------------------

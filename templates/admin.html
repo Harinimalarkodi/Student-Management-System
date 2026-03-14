@@ -1,44 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin - View Feedback</title>
+<title>Admin Dashboard</title>
 </head>
+
 <body>
 
-    <!-- Navigation Bar -->
-    <div>
-        <a href="/">Home</a> |
-        <a href="/admin">Admin</a>|
-        <a href="/students">View Registered Students</a>
-    </div>
+<div>
+<a href="/">Home</a> |
+<a href="/students">View Registered Students</a> |
+<a href="/view">View Feedback</a> |
+<a href="/logout">Logout</a>
+</div>
 
-    <hr>
+<hr>
 
-    <h2>All Submitted Feedback</h2>
+<h2>Admin Dashboard</h2>
 
-    {% if data %}
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Roll</th>
-            <th>Rating</th>
-            <th>Comments</th>
-        </tr>
+<p>Total Students Registered: {{students}}</p>
+<p>Total Feedback Submitted: {{feedback}}</p>
+<p>Average Rating: {{rating}}</p>
 
-        {% for row in data %}
-        <tr>
-            <td>{{ row[0] }}</td>
-            <td>{{ row[1] }}</td>
-            <td>{{ row[2] }}</td>
-            <td>{{ row[3] }}</td>
-            <td>{{ row[4] }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    {% else %}
-        <p>No feedback submitted yet.</p>
-    {% endif %}
+<hr>
 
 </body>
 </html>
